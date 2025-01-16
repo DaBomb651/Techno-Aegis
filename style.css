@@ -22,10 +22,10 @@ body, html {
 }
 
 #platform {
-  width: 100%;  /* Make platform span the full width */
+  width: 100%;  /* Full screen width */
   height: 20px;
-  background-color: green;
+  background-color: green; /* Green platform */
   position: absolute;
   left: 0;
-  bottom: 25%;  /* Position platform 1/4 up the screen */
+  bottom: 25%;  /* 1/4 up the screen */
 }
