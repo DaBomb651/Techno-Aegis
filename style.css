@@ -19,12 +19,14 @@ body, html {
   height: 50px;
   background-color: gray;
   position: absolute;
-  bottom: 0;
 }
 
-.platform {
-  width: 200px;
+#platform {
+  width: 300px;
   height: 20px;
   background-color: #333;
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 25%;
 }
