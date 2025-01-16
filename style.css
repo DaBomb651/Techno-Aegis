@@ -11,6 +11,7 @@ body, html {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  margin: 0;
 }
 
 #square {
@@ -19,4 +20,11 @@ body, html {
   background-color: gray;
   position: absolute;
   bottom: 0;
+}
+
+.platform {
+  width: 200px;
+  height: 20px;
+  background-color: #333;
+  position: absolute;
 }
