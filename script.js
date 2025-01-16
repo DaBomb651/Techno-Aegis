@@ -13,7 +13,6 @@ const moveSpeed = 5;  // Horizontal movement speed
 
 // Platform position (1/4th up the screen)
 const platformY = window.innerHeight / 4;
-const platformX = window.innerWidth / 2 - 150;  // Center the platform horizontally
 
 // Update platform position
 platform.style.bottom = `${platformY}px`;
@@ -36,19 +35,33 @@ function updatePosition() {
 }
 
 // Listen for keydown events to move the square
+let moveLeft = false;
+let moveRight = false;
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft' || e.key === 'a') {
-        posX -= moveSpeed; // Move left
+        moveLeft = true; // Move left
     } else if (e.key === 'ArrowRight' || e.key === 'd') {
-        posX += moveSpeed; // Move right
+        moveRight = true; // Move right
     } else if ((e.key === 'ArrowUp' || e.key === 'w') && !isJumping) {
         velocityY = -jumpStrength; // Jump upwards
         isJumping = true;
     }
 });
 
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'a') {
+        moveLeft = false; // Stop moving left
+    } else if (e.key === 'ArrowRight' || e.key === 'd') {
+        moveRight = false; // Stop moving right
+    }
+});
+
 // Game loop to constantly update position
 function gameLoop() {
+    if (moveLeft) posX -= moveSpeed; // Move left
+    if (moveRight) posX += moveSpeed; // Move right
+
     updatePosition();
     requestAnimationFrame(gameLoop);
 }
