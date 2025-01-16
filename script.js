@@ -7,8 +7,8 @@ let posX = 200; // Starting X position of the square
 let posY = 0;   // Starting Y position of the square (top of the screen)
 let velocityY = 0;  // Vertical speed (for gravity and jumping)
 let isJumping = false;
-const gravity = 0.8;  // Gravity force
-const jumpStrength = 15;  // Jump force
+const gravity = 0.5;  // Reduced gravity for smoother jumps
+const jumpStrength = 10;  // Adjusted jump force
 const moveSpeed = 5;  // Horizontal movement speed
 
 // Platform position (1/4th up the screen)
