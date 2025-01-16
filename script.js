@@ -15,11 +15,12 @@ const gravity = 1;
 // Function to update position
 function updatePosition() {
   // Apply gravity
-  if (posY < window.innerHeight - 50) {
-    velocityY += gravity;
+  if (posY > 0 || velocityY < 0) {
+    velocityY += gravity; // Gravity pulls the square down
   } else {
+    // Reset when it hits the "ground"
     velocityY = 0;
-    posY = window.innerHeight - 50;
+    posY = 0; // Position it on the "floor"
     isJumping = false;
   }
 
@@ -35,7 +36,7 @@ document.addEventListener('keydown', (e) => {
   } else if (e.key === 'ArrowRight' || e.key === 'd') {
     posX += moveSpeed;
   } else if ((e.key === 'ArrowUp' || e.key === 'w') && !isJumping) {
-    velocityY = -jumpStrength;
+    velocityY = -jumpStrength; // Start jumping with an upward velocity
     isJumping = true;
   }
 });
