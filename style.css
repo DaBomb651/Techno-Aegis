@@ -6,7 +6,7 @@
 
 body, html {
   height: 100%;
-  background-color: #f0f0f0;
+  background-color: #b28f61;  /* Brown background for the space below the platform */
   display: flex;
   justify-content: center;
   align-items: center;
