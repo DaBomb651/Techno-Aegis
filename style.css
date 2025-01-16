@@ -22,11 +22,10 @@ body, html {
 }
 
 #platform {
-  width: 300px;
+  width: 100%;  /* Make platform span the full width */
   height: 20px;
-  background-color: #333;
+  background-color: green;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 25%;
+  left: 0;
+  bottom: 25%;  /* Position platform 1/4 up the screen */
 }
