@@ -1,91 +1,58 @@
-// Get the square element
+// Get the square and platform elements
 const square = document.getElementById('square');
+const platform = document.getElementById('platform');
 
 // Set initial position and velocity
-let posX = 200;
-let posY = 0;
-let velocityY = 0;
+let posX = 200; // Starting X position of the square
+let posY = 0;   // Starting Y position of the square (top of the screen)
+let velocityY = 0;  // Vertical speed (for gravity and jumping)
 let isJumping = false;
-let isFalling = false;
-const gravity = 1;
-const jumpStrength = 15;
-const moveSpeed = 5;
+const gravity = 0.8;  // Gravity force
+const jumpStrength = 15;  // Jump force
+const moveSpeed = 5;  // Horizontal movement speed
 
-// Platforms array
-const platforms = [
-  { x: 50, y: 100, width: 200, height: 20 },
-  { x: 300, y: 200, width: 150, height: 20 },
-  { x: 500, y: 300, width: 250, height: 20 },
-];
+// Platform position (1/4th up the screen)
+const platformY = window.innerHeight / 4;
+const platformX = window.innerWidth / 2 - 150;  // Center the platform horizontally
 
-// Create platform elements
-platforms.forEach(platform => {
-  const platformElement = document.createElement('div');
-  platformElement.classList.add('platform');
-  platformElement.style.left = `${platform.x}px`;
-  platformElement.style.bottom = `${platform.y}px`;
-  document.body.appendChild(platformElement);
-});
+// Update platform position
+platform.style.bottom = `${platformY}px`;
 
-// Function to check collision with platforms
-function checkPlatformCollision() {
-  for (let platform of platforms) {
-    if (
-      posX + 50 > platform.x &&
-      posX < platform.x + platform.width &&
-      posY <= platform.y + platform.height &&
-      posY + 50 > platform.y
-    ) {
-      // If the square is falling and hits a platform, reset position and velocity
-      if (velocityY >= 0) {
-        posY = platform.y + platform.height;
+// Update square position based on X and Y
+function updatePosition() {
+    // Apply gravity if the square is not on the platform
+    if (posY > platformY + 20 || velocityY > 0) {
+        velocityY += gravity;  // Gravity pulls the square down
+    } else {
+        // If the square reaches the platform, stop it there
+        posY = platformY + 20;
         velocityY = 0;
         isJumping = false;
-        isFalling = false;
-        return true;
-      }
     }
-  }
-  return false;
-}
 
-// Update position and gravity
-function updatePosition() {
-  // If the square is not on a platform, apply gravity
-  if (!checkPlatformCollision()) {
-    velocityY += gravity; // Apply gravity
-    isFalling = true;
-  } else {
-    isFalling = false;
-  }
-
-  // Update square's position based on velocity
-  posY += velocityY;
-
-  // Ensure square stays within bounds
-  if (posY < 0) posY = 0;
-
-  square.style.left = `${posX}px`;
-  square.style.bottom = `${posY}px`;
+    // Update square position
+    square.style.left = `${posX}px`;
+    square.style.bottom = `${posY}px`;
 }
 
 // Listen for keydown events to move the square
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft' || e.key === 'a') {
-    posX -= moveSpeed;
-  } else if (e.key === 'ArrowRight' || e.key === 'd') {
-    posX += moveSpeed;
-  } else if ((e.key === 'ArrowUp' || e.key === 'w') && !isJumping && !isFalling) {
-    velocityY = -jumpStrength; // Jump upwards
-    isJumping = true;
-  }
+    if (e.key === 'ArrowLeft' || e.key === 'a') {
+        posX -= moveSpeed; // Move left
+    } else if (e.key === 'ArrowRight' || e.key === 'd') {
+        posX += moveSpeed; // Move right
+    } else if ((e.key === 'ArrowUp' || e.key === 'w') && !isJumping) {
+        velocityY = -jumpStrength; // Jump upwards
+        isJumping = true;
+    }
 });
 
-// Game loop
+// Game loop to constantly update position
 function gameLoop() {
-  updatePosition();
-  requestAnimationFrame(gameLoop);
+    updatePosition();
+    requestAnimationFrame(gameLoop);
 }
 
 // Start the game loop
 gameLoop();
+
