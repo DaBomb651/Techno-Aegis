@@ -30,9 +30,9 @@ body, html {
 
 #ground {
   width: 100%;
-  height: 75%; /* Fills space below the green line */
+  height: 25%; /* Fills space below the green line */
   background-color: #b28f61; /* Brown ground */
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 25%;
 }
