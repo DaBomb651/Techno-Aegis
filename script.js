@@ -7,8 +7,8 @@ let posX = 200; // Starting X position of the square
 let posY = 0;   // Starting Y position of the square (top of the screen)
 let velocityY = 0;  // Vertical speed (for gravity and jumping)
 let isJumping = false;
-const gravity = 0.5;  // Reduced gravity for smoother jumps
-const jumpStrength = 10;  // Adjusted jump force
+const gravity = 0.5;  // Gravity strength
+const jumpStrength = 12;  // Jump force
 const moveSpeed = 5;  // Horizontal movement speed
 
 // Platform position (1/4th up the screen)
@@ -22,11 +22,18 @@ function updatePosition() {
     // Apply gravity if the square is not on the platform
     if (posY > platformY + 20 || velocityY > 0) {
         velocityY += gravity;  // Gravity pulls the square down
+        posY -= velocityY;     // Update vertical position
     } else {
         // If the square reaches the platform, stop it there
         posY = platformY + 20;
         velocityY = 0;
         isJumping = false;
+    }
+
+    // Prevent the square from going below the ground
+    if (posY < 0) {
+        posY = 0;
+        velocityY = 0;
     }
 
     // Update square position
