@@ -27,12 +27,3 @@ body, html {
   left: 0;
   bottom: 25%;  /* 1/4 up the screen */
 }
-
-#ground {
-  width: 100%;
-  height: 25%; /* Fills space below the green line */
-  background-color: #b28f61; /* Brown ground */
-  position: absolute;
-  left: 0;
-  bottom: 25%;
-}
