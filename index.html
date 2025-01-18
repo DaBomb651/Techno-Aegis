@@ -3,12 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Platformer Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Simple Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            background-color: #87CEEB;
+        }
+    </style>
 </head>
 <body>
-    <div id="platform"></div>
-    <div id="square"></div>
-    <script src="script.js"></script>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Define player properties
+        const player = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height - canvas.height / 4 - 50,
+            width: 50,
+            height: 50,
+            color: 'red',
+            dx: 0,
+            dy: 0,
+            speed: 5,
+            jumpStrength: 15,
+            isJumping: false
+        };
+
+        // Define ground properties
+        const ground = {
+            x: 0,
+            y: canvas.height - canvas.height / 4,
+            width: canvas.width,
+            height: canvas.height / 4,
+            color: 'green'
+        };
+
+        // Track keys
+        const keys = {
+            left: false,
+            right: false,
+            up: false
+        };
+
+        // Event listeners for key presses
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'a' || e.key === 'ArrowLeft') keys.left = true;
+            if (e.key === 'd' || e.key === 'ArrowRight') keys.right = true;
+            if (e.key === 'w' || e.key === 'ArrowUp') keys.up = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'a' || e.key === 'ArrowLeft') keys.left = false;
+            if (e.key === 'd' || e.key === 'ArrowRight') keys.right = false;
+            if (e.key === 'w' || e.key === 'ArrowUp') keys.up = false;
+        });
+
+        // Game loop
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Handle player movement
+            if (keys.left) player.dx = -player.speed;
+            else if (keys.right) player.dx = player.speed;
+            else player.dx = 0;
+
+            if (keys.up && !player.isJumping) {
+                player.dy = -player.jumpStrength;
+                player.isJumping = true;
+            }
+
+            // Apply gravity
+            player.dy += 0.8;
+
+            // Update player position
+            player.x += player.dx;
+            player.y += player.dy;
+
+            // Prevent player from falling through the ground
+            if (player.y + player.height > ground.y) {
+                player.y = ground.y - player.height;
+                player.dy = 0;
+                player.isJumping = false;
+            }
+
+            // Draw ground
+            ctx.fillStyle = ground.color;
+            ctx.fillRect(ground.x, ground.y, ground.width, ground.height);
+
+            // Draw player
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Keep player within canvas bounds
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
+
+        // Adjust canvas size on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ground.y = canvas.height - canvas.height / 4;
+        });
+    </script>
 </body>
 </html>
